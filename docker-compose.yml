@@ -12,12 +12,11 @@ services:
       - ./mysql-data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
   app:
-    build: .
+    build: ./
     ports:
       - "8080:8080"
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/testdb
       SPRING_DATASOURCE_USERNAME: test_user
