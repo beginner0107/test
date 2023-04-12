@@ -11,10 +11,7 @@ RUN apt-get update && \
 
 COPY . /app
 WORKDIR /app
+RUN gradle bootJar
 
-# Add wait-for-mysql.sh script
-ADD wait-for-mysql.sh /app/wait-for-mysql.sh
-RUN chmod +x /app/wait-for-mysql.sh
-
-# Use wait-for-mysql.sh as entrypoint
-ENTRYPOINT ["/app/wait-for-mysql.sh", "db:3306", "java", "-jar", "/app/build/libs/test-0.0.1-SNAPSHOT.jar"]
+COPY build/libs/test-0.0.1-SNAPSHOT.jar /app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
